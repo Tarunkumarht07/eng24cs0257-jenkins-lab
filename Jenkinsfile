@@ -60,5 +60,13 @@ pipeline {
         failure {
             echo "Build ${env.BUILD_NUMBER} failed - read the Console Output"
         }
+
+        stage('Docker image') {
+    steps {
+        sh 'docker build -t ${APP_NAME}:${BUILD_NUMBER} .'
+        sh 'docker run --rm ${APP_NAME}:${BUILD_NUMBER}'
+        sh 'docker images ${APP_NAME}'
+    }
+}
     }
 }
